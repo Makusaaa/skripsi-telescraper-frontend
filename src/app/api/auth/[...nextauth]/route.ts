@@ -1,5 +1,7 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import jwt from "jsonwebtoken";
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -17,19 +19,20 @@ const handler = NextAuth({
       },
     }),
   ],
-  // pages: {
-  //   signIn: "/login",
-  // },
-  // session: {
-  //   maxAge: 360000,
-  // },
-  // jwt: {
-  //   maxAge: 360000,
-  // },
+  pages: {
+    signIn: "/",
+    error: "/",
+  },
+  session: {
+    maxAge: 360000,
+  },
+  jwt: {
+    maxAge: 360000,
+  },
   callbacks: {
-    // async redirect({ url, baseUrl }) {
-    //   return "/";
-    // },
+    async redirect({ url, baseUrl }) {
+      return "/";
+    },
     async jwt({ token, account }) {
       if (account) {
         console.log("token",token);
@@ -44,14 +47,17 @@ const handler = NextAuth({
           }
         );
         const resParsed = await res.json();
+        if(resParsed.authToken == null)
+          throw new Error("Email not registered");
+        
+        const authToken = jwt.decode(resParsed.authToken)
         token = Object.assign({}, token, {
           id_token: account.id_token,
-        });
-        token = Object.assign({}, token, {
           myToken: resParsed.authToken,
+          roles: authToken!.roles,
+          user_id: authToken!.user_id,
         });
       }
-
       return token;
     },
     async session({ session, token }) {
