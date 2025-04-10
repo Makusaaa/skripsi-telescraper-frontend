@@ -38,7 +38,7 @@ const handler = NextAuth({
         console.log("token",token);
         console.log("account",account);
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`,
+          `${process.env.API_URL}/auth/login`,
           {
             method: "POST",
             headers: {
