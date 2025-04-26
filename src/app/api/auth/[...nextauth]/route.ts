@@ -19,6 +19,7 @@ const handler = NextAuth({
       },
     }),
   ],
+  secret: process.env.NEXT_AUTH_SECRET!,
   pages: {
     signIn: "/",
     error: "/",
@@ -30,7 +31,7 @@ const handler = NextAuth({
     maxAge: 360000,
   },
   callbacks: {
-    async redirect({ url, baseUrl }) {
+    async redirect() {
       return "/";
     },
     async jwt({ token, account }) {
