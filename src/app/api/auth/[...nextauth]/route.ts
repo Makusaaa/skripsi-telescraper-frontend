@@ -31,8 +31,8 @@ const handler = NextAuth({
     maxAge: 360000,
   },
   callbacks: {
-    async redirect() {
-      return "/";
+    async redirect(p) {
+      return p.url;
     },
     async jwt({ token, account }) {
       if (account) {
@@ -51,12 +51,12 @@ const handler = NextAuth({
         if(resParsed.authToken == null)
           throw new Error("Email not registered");
         
-        const authToken = jwt.decode(resParsed.authToken)
+        const authToken = jwt.decode(resParsed.authToken)! as { roles: number, user_id: number }
         token = Object.assign({}, token, {
           id_token: account.id_token,
           myToken: resParsed.authToken,
-          roles: authToken!.roles,
-          user_id: authToken!.user_id,
+          role: authToken.roles,
+          user_id: authToken.user_id,
         });
       }
       return token;
@@ -65,9 +65,9 @@ const handler = NextAuth({
       if (session) {
         session = Object.assign({}, session, {
           id_token: token.id_token,
-        });
-        session = Object.assign({}, session, {
           authToken: token.myToken,
+          role: token.role,
+          userid: token.user_id,
         });
       }
       return session;
@@ -75,4 +75,4 @@ const handler = NextAuth({
   },
 });
 
-export { handler as GET, handler as POST, handler };
+export { handler as GET, handler as POST, handler as OPTIONS};

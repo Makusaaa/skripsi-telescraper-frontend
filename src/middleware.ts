@@ -9,7 +9,7 @@ export default withAuth(
     const { pathname } = req.nextUrl;
 
     if(!ModuleRoles[pathname]) return res.rewrite(new URL('/',req.url))
-    if(!ModuleRoles[req.nextUrl.pathname]?.includes(token!.roles as RoleEnum)) return res.rewrite(new URL('/',req.url))
+    if(!ModuleRoles[req.nextUrl.pathname]?.includes(token!.role as RoleEnum)) return res.rewrite(new URL('/',req.url))
 
     return NextResponse.next();
   },
