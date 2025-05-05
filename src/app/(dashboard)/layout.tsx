@@ -1,3 +1,4 @@
+"use client"
 import { AppSidebar } from "@/components/app-sidebar"
 import {
   Breadcrumb,
@@ -13,12 +14,16 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
+import Link from "next/link"
+import { usePathname } from "next/navigation";
 
-export default async function AppLayout({
+export default function AppLayout({
     children,
   }: Readonly<{
     children: React.ReactNode;
   }>) {
+    const currentPath: string = usePathname();
+    const pathNames: string[] = currentPath.split('/').filter(path => path)
     return (
       <SidebarProvider>
         <AppSidebar />
@@ -32,15 +37,27 @@ export default async function AppLayout({
               />
               <Breadcrumb>
                 <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">
-                      Building Your Application
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                  </BreadcrumbItem>
+                  {pathNames.map((link: string, index: number) => {
+                    const href: string = `/${pathNames.slice(0,index + 1).join('/')}`;
+                    const linkName: string = link.split('-').map((l) => (l[0].toUpperCase()+l.slice(1,l.length))).join(' ');
+                    const isLastPath: boolean = pathNames.length === index + 1;
+                    return (
+                      <div key={index}>
+                        <BreadcrumbItem>
+                          {!isLastPath ?
+                            <BreadcrumbLink asChild>
+                              <Link href={href}>{linkName}</Link>
+                            </BreadcrumbLink>
+                            :
+                            <BreadcrumbPage>
+                              {linkName}
+                            </BreadcrumbPage>
+                          }
+                        </BreadcrumbItem>
+                        {pathNames.length !== index + 1 && <BreadcrumbSeparator />}
+                      </div>
+                    );
+                  })}
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
