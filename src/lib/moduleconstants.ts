@@ -31,8 +31,8 @@ export const ModuleRoles = {
 
 export const ModuleSidebarItems = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "user",
+    email: "user@example.com",
     avatar: "/placeholder-user.webp",
   },
   navMain: [
