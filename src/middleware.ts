@@ -11,7 +11,7 @@ export default withAuth(
     if(!ModuleRoles[pathname]) return res.rewrite(new URL('/',req.url))
     if(!ModuleRoles[req.nextUrl.pathname]?.includes(token!.role as RoleEnum)) return res.rewrite(new URL('/',req.url))
 
-    return NextResponse.next();
+    return res.next();
   },
   {
     secret: process.env.NEXT_AUTH_SECRET!,

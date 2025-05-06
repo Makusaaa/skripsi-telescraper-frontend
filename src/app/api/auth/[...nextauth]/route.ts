@@ -1,8 +1,8 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import jwt from "jsonwebtoken";
 
-const handler = NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -25,6 +25,7 @@ const handler = NextAuth({
     error: "/",
   },
   session: {
+    strategy: 'jwt',
     maxAge: 360000,
   },
   jwt: {
@@ -73,6 +74,8 @@ const handler = NextAuth({
       return session;
     },
   },
-});
+};
+
+const handler = NextAuth(authOptions)
 
 export { handler as GET, handler as POST, handler as OPTIONS};
