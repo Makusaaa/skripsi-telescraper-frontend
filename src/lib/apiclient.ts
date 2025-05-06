@@ -5,7 +5,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 
 export async function FetchAPI(method: string, endpoint: string, body?: any)
 {
-    const session = await getServerSession(authOptions) as unknown as { authToken: string };
+    const session = await getSession();
     if(!session) throw new Error("No Session")    
     try
     {
@@ -26,4 +26,15 @@ export async function FetchAPI(method: string, endpoint: string, body?: any)
     {
         throw new Error("Fetch failed")
     }
+}
+
+export type Session = {
+    authToken: string,
+    role: number,
+    name: string,
+    email: string,
+}
+
+export async function getSession() {
+    return await getServerSession(authOptions) as unknown as Session
 }

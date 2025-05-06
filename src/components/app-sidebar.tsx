@@ -18,10 +18,16 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { ModuleSidebarItems } from "@/lib/moduleconstants"
+import { Session } from "@/lib/apiclient"
 
 const data = ModuleSidebarItems;
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
+  session?: Session
+}
+
+export function AppSidebar({ ...props }: AppSidebarProps) {
+  const { session } = props;
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>
@@ -42,11 +48,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={data.navMain} session={session!} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={session!} />
       </SidebarFooter>
     </Sidebar>
   )

@@ -17,13 +17,12 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
-import { getSession } from "next-auth/react"
 import { RoleEnum } from "@/lib/moduleconstants"
-import { useEffect, useState } from "react"
 import Link from "next/link"
 
 export function NavMain({
   items,
+  session,
 }: {
   items: {
     title: string
@@ -35,17 +34,14 @@ export function NavMain({
       url: string
       roles: RoleEnum[]
     }[]
-  }[]
+  }[],
+  session: {
+    role: number,
+    name: string,
+    email: string,
+  }
 }) {
-
-  const [role, setRole] = useState<number>();
-  useEffect(() => {
-    (async () => {
-      const session = await getSession() as unknown as { role: number };
-      const role = session?.role ?? null;
-      setRole(role);
-    })();
-  }, []);
+  const { role } = session
 
   return (
     <SidebarGroup>
