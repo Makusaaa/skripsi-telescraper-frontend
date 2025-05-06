@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/sidebar"
 import { ModuleSidebarItems } from "@/lib/moduleconstants"
 import { Session } from "@/lib/apiclient"
+import { signOut } from "next-auth/react"
 
 const data = ModuleSidebarItems;
 
@@ -28,6 +29,14 @@ type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
 
 export function AppSidebar({ ...props }: AppSidebarProps) {
   const { session } = props;
+  const logOutOfApp = () => {
+    (async () => {
+      await signOut({ callbackUrl: "/"})
+    })();
+  }
+  if(!session){
+    logOutOfApp();
+  }
   return (
     <Sidebar variant="inset" {...props}>
       <SidebarHeader>

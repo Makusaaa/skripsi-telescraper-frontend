@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions } from "@/lib/authOptions"
+import { cookies } from "next/headers";
 
 export async function FetchAPI(method: string, endpoint: string, body?: any)
 {
@@ -20,6 +21,10 @@ export async function FetchAPI(method: string, endpoint: string, body?: any)
                 body: JSON.stringify(body)
             }
         );
+
+        if(res.status == 401){
+            (await cookies()).delete("next-auth.session-token")
+        }
         return await res.json();
     }
     catch
