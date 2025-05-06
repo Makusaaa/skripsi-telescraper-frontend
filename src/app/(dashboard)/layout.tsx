@@ -8,6 +8,8 @@ import {
 } from "@/components/ui/sidebar"
 import { SidebarBreadcrumb } from "./components/breadcrumb"
 import { getSession } from "@/lib/apiclient"
+import { Suspense } from "react"
+import Loading from "./loading"
 
 export default async function AppLayout({
     children,
@@ -30,7 +32,9 @@ export default async function AppLayout({
             </div>
           </header>
           <Separator />
-          {children}
+          <Suspense fallback={ <Loading />} >
+            {children}
+          </Suspense>
         </SidebarInset>
       </SidebarProvider>
     )

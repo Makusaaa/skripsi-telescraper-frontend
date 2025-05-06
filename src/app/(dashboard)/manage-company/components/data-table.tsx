@@ -17,10 +17,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { getCompanyList } from "@/services/company-service"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useAtom } from "jotai"
 import { companyAtom } from "../atoms"
 import clsx from "clsx"
+import { LoaderIcon } from "lucide-react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -30,6 +31,8 @@ export function DataTable<TData, TValue>({
   columns,
 }: DataTableProps<TData, TValue>) {
   const [data, setData] = useAtom(companyAtom);
+  const [isLoading, setIsLoading] = useState(false);
+
   const table = useReactTable({
     data,
     columns,
@@ -39,6 +42,7 @@ export function DataTable<TData, TValue>({
 
   useEffect(() => {
     (async () => {
+      setIsLoading(true);
       const { data: companyListData } = await getCompanyList()
       if(companyListData){
         const companyList = companyListData.map((item: { companyid: string, companyname: string }) => ({
@@ -47,6 +51,7 @@ export function DataTable<TData, TValue>({
         }))
         setData(companyList)
       }
+      setIsLoading(false);
     })();
 	}, [setData]);
 
@@ -85,6 +90,12 @@ export function DataTable<TData, TValue>({
                 ))}
               </TableRow>
             ))
+          ) : isLoading ? (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                <LoaderIcon className="animate-spin m-auto" />
+              </TableCell>
+            </TableRow>
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
