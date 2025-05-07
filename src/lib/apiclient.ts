@@ -19,7 +19,6 @@ export async function FetchAPI(method: string, endpoint: string, body?: any)
             body: JSON.stringify(body)
         });
         const result = await resp.json();
-        console.log(resp.status)
         if(!resp.ok){
             if(resp.status == 401){
                 (await cookies()).delete("next-auth.session-token")
