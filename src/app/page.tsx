@@ -13,7 +13,7 @@ export default function LoginPage() {
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <Webhook className="size-4" />
           </div>
-          Skripsi TeleScraper
+          Tarsius
         </a>
         {session?.user && (
           <SignOutCard />
