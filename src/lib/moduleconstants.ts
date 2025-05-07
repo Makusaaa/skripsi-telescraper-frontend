@@ -10,7 +10,6 @@ export const Modules = {
   ManageAlarm: "/manage-alarm",
   ManageChannel: "/manage-channel",
   ManageCompany: "/manage-company",
-  ManageCompanyUser: "/manage-company-user",
   ManageCredentialExposure: "/manage-credential-exposure",
   ManageKeywordConfiguration: "/manage-keyword-configuration",
   ManageUser: "/manage-user",
@@ -22,11 +21,10 @@ export const ModuleRoles = {
   [Modules.ManageCredentialExposure]: [ RoleEnum.SuperAdmin, RoleEnum.CompanyAdmin, RoleEnum.User ],
   
   [Modules.ManageKeywordConfiguration]: [ RoleEnum.SuperAdmin, RoleEnum.CompanyAdmin ],
-  [Modules.ManageCompanyUser]: [ RoleEnum.SuperAdmin, RoleEnum.CompanyAdmin ],
   
-  [Modules.ManageChannel]: [ RoleEnum.SuperAdmin ],
+  [Modules.ManageUser]: [ RoleEnum.SuperAdmin, RoleEnum.CompanyAdmin ],
   [Modules.ManageCompany]: [ RoleEnum.SuperAdmin ],
-  [Modules.ManageUser]: [ RoleEnum.SuperAdmin ],
+  [Modules.ManageChannel]: [ RoleEnum.SuperAdmin ],
 }
 
 export const ModuleSidebarItems = {

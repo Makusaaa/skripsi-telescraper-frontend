@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card"
 import { signOut, useSession } from "next-auth/react"
 import { ClipboardIcon } from "lucide-react"
+import Link from "next/link"
 
 export function SignOutCard({
   className,
@@ -26,7 +27,7 @@ export function SignOutCard({
         </CardHeader>
         <CardContent>
           <form>
-            <div className="grid gap-6">
+            <div className="grid gap-3">
               <div className="flex justify-between">
                 <Button onClick={() => navigator.clipboard.writeText(session!.id_token)} variant="outline" className="flex-auto px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out" type="button">
                   <ClipboardIcon/>
@@ -37,6 +38,11 @@ export function SignOutCard({
                   API JWT
                 </Button>
               </div>
+              <Link href={"/manage-alarm"}>
+                <Button className="w-full flex-auto px-4 py-1 rounded-lg transition-colors duration-300 ease-in-out" type="button">
+                  Enter App
+                </Button>
+              </Link>
               <div className="flex flex-col gap-4">
                 <Button variant="outline" className="w-full bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out" onClick={async () => await signOut()} type="button">
                   Sign Out
