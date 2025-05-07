@@ -5,7 +5,6 @@ import { useAtom } from "jotai"
 import { companyAtom } from "../atoms";
 import {
     AlertDialog,
-    AlertDialogAction,
     AlertDialogCancel,
     AlertDialogContent,
     AlertDialogDescription,
@@ -15,19 +14,31 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
   import { Button } from "@/components/ui/button"
-import { Trash } from "lucide-react"
+import { LoaderIcon, Trash } from "lucide-react"
 import { deleteCompany } from "@/services/company-service";
-  
+import { toast } from "sonner"
+import { useState } from "react";
+
 export function AlertDialogButton(props: any) {
   const [companies, setCompany] = useAtom(companyAtom);
+  const [showDialog, setShowDialog] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleDeleteCompany = async (companyid: string) => {
-    await deleteCompany(companyid);
-    setCompany(companies.filter((company: any) => company.id !== companyid));
+    setIsLoading(true);
+    try {
+      await deleteCompany(companyid);
+      setCompany(companies.filter((company: any) => company.id !== companyid));
+      setShowDialog(false);
+    }
+    catch(e: any) {
+      toast.error(e.message);
+    }
+    setIsLoading(false);
   }
 
   return (
-    <AlertDialog>
+    <AlertDialog open={showDialog} onOpenChange={setShowDialog} >
       <AlertDialogTrigger asChild>
         <Button variant="outline" size="sm"><Trash /></Button>
       </AlertDialogTrigger>
@@ -41,7 +52,12 @@ export function AlertDialogButton(props: any) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => handleDeleteCompany(props.companyid)}>Continue</AlertDialogAction>
+          <Button
+            className="w-22"
+            disabled={isLoading}
+            onClick={() => handleDeleteCompany(props.companyid)}>
+            { isLoading ? <LoaderIcon className="animate-spin m-auto" /> : "Continue" }
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

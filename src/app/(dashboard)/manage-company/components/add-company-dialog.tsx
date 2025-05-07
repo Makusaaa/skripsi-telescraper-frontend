@@ -33,7 +33,7 @@ export function AddCompanyDialog() {
     const companyname = formData.get("companyname") as string
     const email = formData.get("email") as string
     const fullname = formData.get("fullname") as string
-    try{
+    try {
       const { data } = await addCompany({
         companyname: companyname,
         email: email,
@@ -46,7 +46,7 @@ export function AddCompanyDialog() {
       setCompany(newdata);
       setShowDialog(false);
     }
-    catch(e: any){
+    catch(e: any) {
       toast.error(e.message)
     }
     setIsLoading(false)

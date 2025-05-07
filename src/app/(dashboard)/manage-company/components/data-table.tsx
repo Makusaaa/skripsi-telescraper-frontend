@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
@@ -22,6 +23,7 @@ import { useAtom } from "jotai"
 import { companyAtom } from "../atoms"
 import clsx from "clsx"
 import { LoaderIcon } from "lucide-react"
+import { toast } from "sonner"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -43,17 +45,22 @@ export function DataTable<TData, TValue>({
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      const { data: companyListData } = await getCompanyList()
-      if(companyListData){
-        const companyList = companyListData.map((item: { companyid: string, companyname: string }) => ({
-          id: item.companyid,
-          name: item.companyname,
-        }))
-        setData(companyList)
+      try {
+        const { data: companyListData } = await getCompanyList()
+        if(companyListData){
+          const companyList = companyListData.map((item: { companyid: string, companyname: string }) => ({
+            id: item.companyid,
+            name: item.companyname,
+          }))
+          setData(companyList)
+        }
+      }
+      catch(e: any) {
+        toast.error(e.message)
       }
       setIsLoading(false);
-    })();
-	}, [setData]);
+    })()
+	}, []);
 
   return (    
     <div className="rounded-md border">
@@ -77,32 +84,36 @@ export function DataTable<TData, TValue>({
           ))}
         </TableHeader>
         <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
+          {
+            isLoading ? (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  <LoaderIcon className="animate-spin m-auto" />
+                </TableCell>
               </TableRow>
-            ))
-          ) : isLoading ? (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                <LoaderIcon className="animate-spin m-auto" />
-              </TableCell>
-            </TableRow>
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
+            ) : (
+              table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow>
+                  <TableCell colSpan={columns.length} className="h-24 text-center">
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )
+            )
+          }
         </TableBody>
       </Table>
     </div>
