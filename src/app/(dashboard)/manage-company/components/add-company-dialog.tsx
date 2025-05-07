@@ -41,7 +41,9 @@ export function AddCompanyDialog() {
       });
       const newdata: any = [...companies, {
         id: data.newCompany.companyid,
-        name: data.newCompany.companyname
+        name: data.newCompany.companyname,
+        fullname: data.newCompanyAdmin.fullname,
+        email: data.newCompanyAdmin.email,
       }];
       setCompany(newdata);
       setShowDialog(false);

@@ -22,6 +22,20 @@ export const columns: ColumnDef<Company>[] = [
   {
     accessorKey: "name",
     header: "Name",
+    meta: {
+      headerClassName: "max-w-80 text-left",
+    },
+  },
+  {
+    accessorKey: "fullname",
+    header: "Admin Fullname",
+  },
+  {
+    accessorKey: "email",
+    header: "Admin Email",
+    meta: {
+      headerClassName: "max-w-80 text-left",
+    },
   },
   colHelper.display({
     id: 'action',

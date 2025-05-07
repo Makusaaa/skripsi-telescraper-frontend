@@ -48,10 +48,25 @@ export function DataTable<TData, TValue>({
       try {
         const { data: companyListData } = await getCompanyList()
         if(companyListData){
-          const companyList = companyListData.map((item: { companyid: string, companyname: string }) => ({
-            id: item.companyid,
-            name: item.companyname,
-          }))
+          const companyList = companyListData.map((item: {
+            companyid: string,
+            companyname: string,
+            fullname: string,
+            email: string
+            admins: {
+              userid: string,
+              email: string,
+              fullname: string,
+            }[]
+          }) => {
+            return {
+              id: item.companyid,
+              name: item.companyname,
+              fullname: item.admins[0]?.fullname ?? "-",
+              email: item.admins[0]?.email ?? "-"
+            }
+          }
+        )
           setData(companyList)
         }
       }
