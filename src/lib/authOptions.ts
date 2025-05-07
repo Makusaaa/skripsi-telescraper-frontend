@@ -52,14 +52,15 @@ export const authOptions: NextAuthOptions = {
           if(resParsed.authToken == null)
             throw new Error("Email not registered");
           
-          const authToken = jwt.decode(resParsed.authToken)! as { roles: number, user_id: number, email: string, name: string}
+          const authToken = jwt.decode(resParsed.authToken)! as { role: number, user_id: number, email: string, name: string, companyid: string}
           token = Object.assign({}, token, {
             email: authToken.email,
             name: authToken.name,
             id_token: account.id_token,
             myToken: resParsed.authToken,
-            role: authToken.roles,
+            role: authToken.role,
             user_id: authToken.user_id,
+            companyid: authToken.companyid,
           });
         }
         return token;
@@ -73,6 +74,7 @@ export const authOptions: NextAuthOptions = {
             userid: token.user_id,
             email: token.email,
             name: token.name,
+            companyid: token.companyid,
           });
         }
         return session;
