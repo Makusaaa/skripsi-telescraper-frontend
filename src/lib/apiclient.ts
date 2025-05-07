@@ -6,30 +6,40 @@ import { cookies } from "next/headers";
 
 export async function FetchAPI(method: string, endpoint: string, body?: any)
 {
-    const session = await getSession();
-    if(!session) throw new Error("No Session")    
     try
     {
-        const res = await fetch(
-            `${process.env.API_URL}${endpoint}`,
-            {
-                method: method,
-                headers: {
-                    "Authorization": `Bearer ${session.authToken}`,
-                    "Content-Type": `application/json`
-                },
-                body: JSON.stringify(body)
+        const session = await getSession();
+        if(!session) throw new Error("No Session");
+        const resp = await fetch(`${process.env.API_URL}${endpoint}`, {
+            method: method,
+            headers: {
+                "Authorization": `Bearer ${session.authToken}`,
+                "Content-Type": `application/json`
+            },
+            body: JSON.stringify(body)
+        });
+        const result = await resp.json();
+        console.log(resp.status)
+        if(!resp.ok){
+            if(resp.status == 401){
+                (await cookies()).delete("next-auth.session-token")
             }
-        );
-
-        if(res.status == 401){
-            (await cookies()).delete("next-auth.session-token")
+            if(resp.status == 400){
+                throw new Error(result.error);
+            }
+            if(resp.status == 500){
+                console.error(`HTTP error! status: ${resp.status}`);
+                throw new Error("Server Internal Error!");
+            }
         }
-        return await res.json();
+        return result;
     }
-    catch
+    catch(e: any)
     {
-        throw new Error("Fetch failed")
+        if(e.message == "fetch failed") {
+            throw new Error("Fetching fail, server might be down!");
+        }
+        throw e;
     }
 }
 
