@@ -2,6 +2,14 @@
 import { FetchAPI, getSession } from "@/lib/apiclient";
 import { RoleEnum } from "@/lib/moduleconstants";
 
+export async function getUserList() {
+    return await FetchAPI("GET","/users");
+}
+
+export async function deleteUser(userid: string) {
+    return await FetchAPI("DELETE","/users", { userid: userid });
+}
+
 export async function addUser(input: {
     fullname: string,
     email: string,

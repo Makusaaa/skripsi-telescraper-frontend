@@ -19,9 +19,10 @@ import { CirclePlus, LoaderIcon } from "lucide-react"
 import { FormEvent, useState } from "react"
 import { toast } from "sonner"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { RoleEnum, RoleName } from "@/lib/moduleconstants";
+import { RoleEnum } from "@/lib/moduleconstants";
 import { CompanyCombobox } from "./company-combobox";
 import { addUser } from "@/services/users-service";
+import { User } from "./columns";
 
 export function AddUserDialog(props: any) {
   const { role } = props;
@@ -45,13 +46,7 @@ export function AddUserDialog(props: any) {
         role: role,
         companyid: companyid,
       });
-      const newdata: any = [...users, {
-        id: data.userid,
-        fullname: data.fullname,
-        email: data.email,
-        companyname: data.companyname ?? "-",
-        role: RoleName[data.role as RoleEnum]
-      }];
+      const newdata: any = [...users, data as User];
       setUsers(newdata);
       setShowDialog(false);
     }

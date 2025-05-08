@@ -2,6 +2,8 @@
 
 import { getSession } from "@/lib/apiclient";
 import { AddUserDialog } from "./components/add-user-dialog"
+import { DataTable } from "./components/data-table";
+import { columns } from "./components/columns";
 
 export default async function ManageUserPage() {
   const session = await getSession();
@@ -20,7 +22,7 @@ export default async function ManageUserPage() {
             <AddUserDialog role={role}/>
           </div>
         </div>
-        {/* <DataTable columns={columns} /> */}
+        <DataTable columns={columns} />
       </div>
     </div>
   )
