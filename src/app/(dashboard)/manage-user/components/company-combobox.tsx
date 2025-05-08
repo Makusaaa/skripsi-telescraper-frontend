@@ -61,8 +61,8 @@ export function CompanyCombobox() {
           className="w-full justify-between"
         >
           {value
-            ? companies.find((framework) => framework.value === value)?.label
-            : "Select framework..."}
+            ? companies.find((company) => company.value === value)?.label
+            : "Select company"}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -75,25 +75,25 @@ export function CompanyCombobox() {
             return 0;
           }}
         >
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder="Search company..." />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No company found.</CommandEmpty>
             <CommandGroup>
-              {companies.map((framework) => (
+              {companies.map((company) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
-                  keywords={[framework.label]}
+                  key={company.value}
+                  value={company.value}
+                  keywords={[company.label]}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue)
                     setOpen(false)
                   }}
                 >
-                  {framework.label}
+                  {company.label}
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === framework.value ? "opacity-100" : "opacity-0"
+                      value === company.value ? "opacity-100" : "opacity-0"
                     )}
                   />
                 </CommandItem>

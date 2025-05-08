@@ -16,6 +16,12 @@ export const Modules = {
   Login: "/",
 }
 
+export const RoleName = {
+  [RoleEnum.SuperAdmin]: "Super Admin",
+  [RoleEnum.CompanyAdmin]: "Company Admin",
+  [RoleEnum.User]: "Company User",
+}
+
 export const ModuleRoles = {
   [Modules.ManageAlarm]: [ RoleEnum.SuperAdmin, RoleEnum.CompanyAdmin, RoleEnum.User ],
   [Modules.ManageCredentialExposure]: [ RoleEnum.SuperAdmin, RoleEnum.CompanyAdmin, RoleEnum.User ],
