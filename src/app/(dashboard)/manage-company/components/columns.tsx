@@ -8,6 +8,8 @@ import { AlertDialogButton } from "./alert-dialog-button"
 export type Company = {
   id: string
   name: string
+  fullname: string
+  email: string
 }
 const colHelper = createColumnHelper<Company>();
 export const columns: ColumnDef<Company>[] = [
