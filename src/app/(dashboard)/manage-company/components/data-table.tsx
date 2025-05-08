@@ -33,7 +33,7 @@ export function DataTable<TData, TValue>({
   columns,
 }: DataTableProps<TData, TValue>) {
   const [data, setData] = useAtom(companyAtom);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const table = useReactTable({
     data,
@@ -44,7 +44,6 @@ export function DataTable<TData, TValue>({
 
   useEffect(() => {
     (async () => {
-      setIsLoading(true);
       try {
         const { data: companyListData } = await getCompanyList()
         if(companyListData){
@@ -65,15 +64,16 @@ export function DataTable<TData, TValue>({
               fullname: item.admins[0]?.fullname ?? "-",
               email: item.admins[0]?.email ?? "-"
             }
-          }
-        )
+          })
           setData(companyList)
         }
       }
       catch(e: any) {
         toast.error(e.message)
       }
-      setIsLoading(false);
+      finally {
+        setIsLoading(false);
+      }
     })()
 	}, []);
 
