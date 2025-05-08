@@ -3,6 +3,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions"
 import { cookies } from "next/headers";
+import status from "http-status"
 
 export async function FetchAPI(method: string, endpoint: string, body?: any)
 {
@@ -18,20 +19,23 @@ export async function FetchAPI(method: string, endpoint: string, body?: any)
             },
             body: JSON.stringify(body)
         });
-        const result = await resp.json();
         if(!resp.ok){
-            if(resp.status == 401){
+            if(resp.status == status.UNAUTHORIZED){
                 (await cookies()).delete("next-auth.session-token")
             }
-            if(resp.status == 400){
-                throw new Error(result.error);
+            else if(resp.status == status.BAD_REQUEST){
+                throw new Error((await resp.json()).error);
             }
-            if(resp.status == 500){
+            else if(resp.status == status.INTERNAL_SERVER_ERROR){
                 console.error(`HTTP error! status: ${resp.status}`);
                 throw new Error("Server Internal Error!");
             }
+            else if(resp.status == status.NOT_FOUND){
+                console.error(`HTTP error! status: ${resp.status}`);
+                throw new Error("Endpoint Not Found!");
+            }
         }
-        return result;
+        return await resp.json();
     }
     catch(e: any)
     {
