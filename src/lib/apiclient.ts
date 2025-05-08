@@ -44,6 +44,7 @@ export async function FetchAPI(method: string, endpoint: string, body?: any)
 
 export type Session = {
     authToken: string,
+    id_token: string,
     role: number,
     name: string,
     email: string,

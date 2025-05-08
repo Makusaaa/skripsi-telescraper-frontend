@@ -1,3 +1,5 @@
+"use client"
+
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import {
@@ -6,34 +8,31 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { signOut, useSession } from "next-auth/react"
+import { signOut } from "next-auth/react"
 import { ClipboardIcon } from "lucide-react"
 import Link from "next/link"
+import { Session } from "@/lib/apiclient"
 
 export function SignOutCard({
   className,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
-  const { data: session } = useSession() as unknown as { data: { id_token: string, authToken: string, user?: {
-    name?: string | null
-    email?: string | null
-    image?: string | null
-  }}};
+}: React.ComponentPropsWithoutRef<"div"> & { session: Session }) {
+  const { session } = props;
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <CardTitle className="text-xl">Signed in as {session?.user?.name}</CardTitle>
+          <CardTitle className="text-xl">Signed in as {session.name}</CardTitle>
         </CardHeader>
         <CardContent>
           <form>
             <div className="grid gap-3">
               <div className="flex justify-between">
-                <Button onClick={() => navigator.clipboard.writeText(session!.id_token)} variant="outline" className="flex-auto px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out" type="button">
+                <Button onClick={() => navigator.clipboard.writeText(session.id_token)} variant="outline" className="flex-auto px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out" type="button">
                   <ClipboardIcon/>
                   Google JWT
                 </Button>
-                <Button onClick={() => navigator.clipboard.writeText(session!.authToken)} variant="outline" className="flex-auto px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out" type="button">
+                <Button onClick={() => navigator.clipboard.writeText(session.authToken)} variant="outline" className="flex-auto px-4 py-2 rounded-lg transition-colors duration-300 ease-in-out" type="button">
                   <ClipboardIcon/>
                   API JWT
                 </Button>
