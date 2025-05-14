@@ -1,15 +1,15 @@
 import { atom, useAtom } from "jotai"
 
-import { Mail, mails } from "./data"
+import { Alarm, alarms } from "./data"
 
 type Config = {
-  selected: Mail["id"] | null
+  selected: Alarm["id"] | null
 }
 
 const configAtom = atom<Config>({
-  selected: mails[0].id,
+  selected: alarms[0].id,
 })
 
-export function useMail() {
+export function useAlarm() {
   return useAtom(configAtom)
 }

@@ -1,39 +1,37 @@
-import { ComponentProps } from "react"
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow"
 import { cn } from "@/lib/utils"
-import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Mail } from "../data"
-import { useMail } from "../use-mail"
+import { Alarm } from "../data"
+import { useAlarm } from "../use-alarm"
 
-interface MailListProps {
-  items: Mail[]
+interface AlarmListProps {
+  items: Alarm[]
 }
 
-export function MailList({ items }: MailListProps) {
-  const [mail, setMail] = useMail()
+export function AlarmList({ items }: AlarmListProps) {
+  const [alarm, setAlarm] = useAlarm()
 
   return (
     <ScrollArea className="h-screen">
       <div className="flex flex-col gap-2 p-4 pt-0">
         {items.map((item) => (
           <button
-            key={item.id}
+            key={item.alarmid}
             className={cn(
               "flex flex-col items-start gap-2 rounded-lg border p-3 text-left text-sm transition-all hover:bg-accent",
-              mail.selected === item.id && "bg-muted"
+              alarm.selected === item.alarmid && "bg-muted"
             )}
             onClick={() =>
-              setMail({
-                ...mail,
-                selected: item.id,
+              setAlarm({
+                ...alarm,
+                selected: item.alarmid,
               })
             }
           >
             <div className="flex w-full flex-col gap-1">
               <div className="flex items-center">
                 <div className="flex items-center gap-2">
-                  <div className="font-semibold">{item.name}</div>
+                  <div className="font-semibold">{item.channelname}</div>
                   {!item.read && (
                     <span className="flex h-2 w-2 rounded-full bg-blue-600" />
                   )}
@@ -41,47 +39,24 @@ export function MailList({ items }: MailListProps) {
                 <div
                   className={cn(
                     "ml-auto text-xs",
-                    mail.selected === item.id
+                    alarm.selected === item.alarmid
                       ? "text-foreground"
                       : "text-muted-foreground"
                   )}
                 >
-                  {formatDistanceToNow(new Date(item.date), {
+                  {formatDistanceToNow(new Date(item.discoverydate), {
                     addSuffix: true,
                   })}
                 </div>
               </div>
-              <div className="text-xs font-medium">{item.subject}</div>
+              <div className="text-xs font-medium">{item.filename}</div>
             </div>
             <div className="line-clamp-2 text-xs text-muted-foreground">
               {item.text.substring(0, 300)}
             </div>
-            {item.labels.length ? (
-              <div className="flex items-center gap-2">
-                {item.labels.map((label) => (
-                  <Badge key={label} variant={getBadgeVariantFromLabel(label)}>
-                    {label}
-                  </Badge>
-                ))}
-              </div>
-            ) : null}
           </button>
         ))}
       </div>
     </ScrollArea>
   )
-}
-
-function getBadgeVariantFromLabel(
-  label: string
-): ComponentProps<typeof Badge>["variant"] {
-  if (["work"].includes(label.toLowerCase())) {
-    return "default"
-  }
-
-  if (["personal"].includes(label.toLowerCase())) {
-    return "outline"
-  }
-
-  return "secondary"
 }

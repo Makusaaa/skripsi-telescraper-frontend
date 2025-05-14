@@ -14,21 +14,21 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { TooltipProvider } from "@/components/ui/tooltip"
-import { MailDisplay } from "./mail-display"
-import { MailList } from "./mail-list"
-import { type Mail } from "../data"
-import { useMail } from "../use-mail"
+import { MailDisplay } from "./alarm-display"
+import { AlarmList } from "./alarm-list"
+import { type Alarm } from "../data"
+import { useAlarm } from "../use-alarm"
 
-interface MailProps {
-  mails: Mail[]
+interface AlarmProps {
+  alarms: Alarm[]
   defaultLayout: number[] | undefined
 }
 
-export function Mail({
-  mails,
+export function AlarmsPage({
+  alarms,
   defaultLayout = [20, 32, 48],
-}: MailProps) {
-  const [mail] = useMail()
+}: AlarmProps) {
+  const [alarm] = useAlarm()
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -54,29 +54,41 @@ export function Mail({
                     value="all"
                     className="text-zinc-600 dark:text-zinc-200"
                   >
-                    All Alarms
+                    All
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="open"
+                    className="text-zinc-600 dark:text-zinc-200"
+                  >
+                    Open
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="closed"
+                    className="text-zinc-600 dark:text-zinc-200"
+                  >
+                    Closed
                   </TabsTrigger>
                   <TabsTrigger
                     value="unread"
                     className="text-zinc-600 dark:text-zinc-200"
                   >
-                    Handled Alarms
+                    Assigned to me
                   </TabsTrigger>
                 </TabsList>
             </div>
             <Separator />
             <TabsContent value="all" className="m-0">
-              <MailList items={mails} />
+              <AlarmList items={alarms} />
             </TabsContent>
             <TabsContent value="unread" className="m-0">
-              <MailList items={mails.filter((item) => !item.read)} />
+              <AlarmList items={alarms.filter((item) => !item.read)} />
             </TabsContent>
           </Tabs>
         </ResizablePanel>
         <ResizableHandle withHandle />
         <ResizablePanel defaultSize={defaultLayout[2]} minSize={30}>
           <MailDisplay
-            mail={mails.find((item) => item.id === mail.selected) || null}
+            alarm={alarms.find((item) => item.alarmid === alarm.selected) || null}
           />
         </ResizablePanel>
       </ResizablePanelGroup>
