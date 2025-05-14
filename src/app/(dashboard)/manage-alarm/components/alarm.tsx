@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import * as React from "react"
@@ -16,19 +17,47 @@ import {
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { MailDisplay } from "./alarm-display"
 import { AlarmList } from "./alarm-list"
-import { type Alarm } from "../data"
 import { useAlarm } from "../use-alarm"
+import { useEffect, useState } from "react"
+import { getAlarmList } from "@/services/alarms-service"
+import { toast } from "sonner"
+import { LoaderIcon } from "lucide-react"
+import { StatusEnum, StatusName } from "@/lib/moduleconstants"
+import { Session } from "@/lib/apiclient"
 
 interface AlarmProps {
-  alarms: Alarm[]
   defaultLayout: number[] | undefined
+  session: Session
 }
 
 export function AlarmsPage({
-  alarms,
   defaultLayout = [20, 32, 48],
+  session
 }: AlarmProps) {
   const [alarm] = useAlarm()
+  const [alarms, setAlarms] = useState<any[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data: alarmList } = await getAlarmList()
+        if(alarmList){
+          setAlarms(alarmList.map((a: any) => ({
+            ...a,
+            text: `Found leaked credentials on channel https://t.me/${a.channeluserid}/`,
+            labels: [StatusName[a.status as StatusEnum]]
+          })))
+        }
+      }
+      catch(e: any) {
+        toast.error(e.message)
+      }
+      finally {
+        setIsLoading(false);
+      }
+    })()
+	}, []);
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -69,7 +98,7 @@ export function AlarmsPage({
                     Closed
                   </TabsTrigger>
                   <TabsTrigger
-                    value="unread"
+                    value="assigned"
                     className="text-zinc-600 dark:text-zinc-200"
                   >
                     Assigned to me
@@ -77,11 +106,18 @@ export function AlarmsPage({
                 </TabsList>
             </div>
             <Separator />
+            {isLoading && <LoaderIcon className="animate-spin mx-auto mt-15" />}
             <TabsContent value="all" className="m-0">
               <AlarmList items={alarms} />
             </TabsContent>
-            <TabsContent value="unread" className="m-0">
-              <AlarmList items={alarms.filter((item) => !item.read)} />
+            <TabsContent value="open" className="m-0">
+              <AlarmList items={alarms.filter((item) => item.status == StatusEnum.Open)} />
+            </TabsContent>
+            <TabsContent value="closed" className="m-0">
+              <AlarmList items={alarms.filter((item) => item.status == StatusEnum.Closed)} />
+            </TabsContent>
+            <TabsContent value="assigned" className="m-0">
+              <AlarmList items={alarms.filter((item) => item.assignto == session.userid)} />
             </TabsContent>
           </Tabs>
         </ResizablePanel>

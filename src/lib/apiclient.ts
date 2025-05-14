@@ -53,6 +53,7 @@ export type Session = {
     name: string,
     email: string,
     companyid: string | null,
+    userid: string,
 }
 
 export async function getSession() {

@@ -255,7 +255,7 @@ export function MailDisplay({ alarm }: AlarmDisplayProps) {
         </div>
       ) : (
         <div className="p-8 text-center text-muted-foreground">
-          No message selected
+          No alarm selected
         </div>
       )}
     </div>

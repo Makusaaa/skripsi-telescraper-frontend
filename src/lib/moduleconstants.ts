@@ -6,6 +6,18 @@ export enum RoleEnum{
   User = 2,
 }
 
+export enum StatusEnum{
+  Open = 0,
+  OnProgress = 1,
+  Closed = 2,
+}
+
+export const StatusName = {
+  [StatusEnum.Open]: "Open",
+  [StatusEnum.OnProgress]: "On Progress",
+  [StatusEnum.Closed]: "Closed",
+}
+
 export const Modules = {
   ManageAlarm: "/manage-alarm",
   ManageChannel: "/manage-channel",

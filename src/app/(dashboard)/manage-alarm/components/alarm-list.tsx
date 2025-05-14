@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { formatDistanceToNow } from "date-fns/formatDistanceToNow"
 import { cn } from "@/lib/utils"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Alarm } from "../data"
 import { useAlarm } from "../use-alarm"
+import { Badge } from "@/components/ui/badge"
+import { ComponentProps } from "react"
 
 interface AlarmListProps {
-  items: Alarm[]
+  items: any[]
 }
 
 export function AlarmList({ items }: AlarmListProps) {
@@ -32,9 +34,6 @@ export function AlarmList({ items }: AlarmListProps) {
               <div className="flex items-center">
                 <div className="flex items-center gap-2">
                   <div className="font-semibold">{item.channelname}</div>
-                  {!item.read && (
-                    <span className="flex h-2 w-2 rounded-full bg-blue-600" />
-                  )}
                 </div>
                 <div
                   className={cn(
@@ -51,12 +50,41 @@ export function AlarmList({ items }: AlarmListProps) {
               </div>
               <div className="text-xs font-medium">{item.filename}</div>
             </div>
-            <div className="line-clamp-2 text-xs text-muted-foreground">
-              {item.text.substring(0, 300)}
+            <div className="flex items-center">
+              <div className="line-clamp-2 text-xs text-muted-foreground">
+                {item.text.substring(0, 300)}
+              </div>
+              <div className="ml-auto mt-auto">
+                {item.labels.length ? (
+                  <div className="flex items-center gap-2">
+                    {item.labels.map((label: any) => (
+                      <Badge key={label} variant={getBadgeVariantFromLabel(label)}>
+                        {label}
+                      </Badge>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
             </div>
+            
+            
           </button>
         ))}
       </div>
     </ScrollArea>
   )
+}
+
+function getBadgeVariantFromLabel(
+  label: string
+): ComponentProps<typeof Badge>["variant"] {
+  if (["open"].includes(label.toLowerCase())) {
+    return "default"
+  }
+
+  if (["closed"].includes(label.toLowerCase())) {
+    return "outline"
+  }
+
+  return "secondary"
 }
