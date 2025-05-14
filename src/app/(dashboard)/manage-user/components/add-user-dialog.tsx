@@ -49,6 +49,7 @@ export function AddUserDialog(props: any) {
       const newdata: any = [...users, data as User];
       setUsers(newdata);
       setShowDialog(false);
+      toast.success("Successfully added new user")
     }
     catch(e: any) {
       toast.error(e.message)
@@ -64,12 +65,12 @@ export function AddUserDialog(props: any) {
         setShowDialog(open)
       }}>
       <DialogTrigger asChild>
-        <Button><CirclePlus />Register New User</Button>
+        <Button><CirclePlus />Add New User</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[575px]">
         <form onSubmit={handleAddUser}>
           <DialogHeader>
-            <DialogTitle>Register New User</DialogTitle>
+            <DialogTitle>Add New User</DialogTitle>
             <DialogDescription>
               Input the user&#39;s profile
             </DialogDescription>

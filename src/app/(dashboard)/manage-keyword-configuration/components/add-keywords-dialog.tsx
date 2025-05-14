@@ -55,12 +55,12 @@ export function AddKeywordDialog(props: any) {
       open={showDialog}
       onOpenChange={setShowDialog}>
       <DialogTrigger asChild>
-        <Button><CirclePlus />Register New Keyword</Button>
+        <Button><CirclePlus />Add Keyword</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[575px]">
         <form onSubmit={handleAddKeyword}>
           <DialogHeader>
-            <DialogTitle>Register New Keyword</DialogTitle>
+            <DialogTitle>Add Keyword</DialogTitle>
             <DialogDescription>
               Input the keyword
             </DialogDescription>
