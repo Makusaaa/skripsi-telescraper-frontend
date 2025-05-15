@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
-import { StatusEnum, StatusName } from "@/lib/moduleconstants"
+import { StatusEnum } from "@/lib/moduleconstants"
 import { ColumnDef } from "@tanstack/react-table"
+import { StatusBadge } from "./status-badge"
 
 export type User = {
   credentialexposureid: string
@@ -36,6 +37,6 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: (d) => (StatusName[d.getValue() as StatusEnum]),
+    cell: (d) => (<StatusBadge status={d.getValue() as StatusEnum}/>),
   },
 ]

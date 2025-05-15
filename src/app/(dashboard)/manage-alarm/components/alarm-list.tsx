@@ -3,9 +3,8 @@ import { formatDistanceToNow } from "date-fns/formatDistanceToNow"
 import { cn } from "@/lib/utils"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useAlarm } from "../use-alarm"
-import { Badge } from "@/components/ui/badge"
-import { ComponentProps } from "react"
-import { StatusEnum, StatusName } from "@/lib/moduleconstants"
+import { StatusEnum } from "@/lib/moduleconstants"
+import { StatusBadge } from "./status-badge"
 
 interface AlarmListProps {
   items: any[]
@@ -56,15 +55,7 @@ export function AlarmList({ items }: AlarmListProps) {
                 {item.text.substring(0, 300)}
               </div>
               <div className="ml-auto mt-auto">
-                {[StatusName[item.status as StatusEnum]].length ? (
-                  <div className="flex items-center gap-2">
-                    {[StatusName[item.status as StatusEnum]].map((label: any) => (
-                      <Badge key={label} variant={getBadgeVariantFromLabel(label)}>
-                        {label}
-                      </Badge>
-                    ))}
-                  </div>
-                ) : null}
+                <StatusBadge status={item.status as StatusEnum}/>
               </div>
             </div>
           </button>
@@ -72,18 +63,4 @@ export function AlarmList({ items }: AlarmListProps) {
       </div>
     </ScrollArea>
   )
-}
-
-function getBadgeVariantFromLabel(
-  label: string
-): ComponentProps<typeof Badge>["variant"] {
-  if (["open"].includes(label.toLowerCase())) {
-    return "default"
-  }
-
-  if (["closed"].includes(label.toLowerCase())) {
-    return "outline"
-  }
-
-  return "secondary"
 }
