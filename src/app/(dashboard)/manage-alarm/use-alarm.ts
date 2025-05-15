@@ -12,5 +12,3 @@ const configAtom = atom<Config>({
 export function useAlarm() {
   return useAtom(configAtom)
 }
-
-export const userAtom = atom([])
