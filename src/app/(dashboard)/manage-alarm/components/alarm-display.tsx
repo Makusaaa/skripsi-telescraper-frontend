@@ -8,10 +8,7 @@ import {
   AvatarImage,
 } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
-import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
 import { Copy } from "lucide-react"
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
@@ -90,34 +87,7 @@ export function MailDisplay({ alarm }: AlarmDisplayProps) {
               <DataTable columns={columns} data={alarm.credentials}/>
             </div>
           </div>
-          
           <Separator className="mt-auto" />
-          <div className="p-4">
-            <form>
-              <div className="grid gap-4">
-                <Textarea
-                  className="p-4"
-                  placeholder={`Reply ${alarm.channelname}...`}
-                />
-                <div className="flex items-center">
-                  <Label
-                    htmlFor="mute"
-                    className="flex items-center gap-2 text-xs font-normal"
-                  >
-                    <Switch id="mute" aria-label="Mute thread" /> Mute this
-                    thread
-                  </Label>
-                  <Button
-                    onClick={(e) => e.preventDefault()}
-                    size="sm"
-                    className="ml-auto"
-                  >
-                    Send
-                  </Button>
-                </div>
-              </div>
-            </form>
-          </div>
         </div>
       ) : (
         <div className="p-8 mt-40 text-center text-muted-foreground">
