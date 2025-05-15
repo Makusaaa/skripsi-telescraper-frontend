@@ -18,3 +18,10 @@ export async function updateAlarmAssignTo(input: { alarmid: string, assignto: nu
         assignto: input.assignto,
     });
 }
+
+export async function updateAlarmNotes(input: { alarmid: string, notes: string | null }) {
+    return await FetchAPI("PATCH","/alarms/notes", {
+        alarmid: input.alarmid,
+        notes: input.notes,
+    });
+}

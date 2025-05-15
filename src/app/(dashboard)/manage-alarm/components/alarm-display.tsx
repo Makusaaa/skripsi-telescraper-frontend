@@ -13,6 +13,7 @@ import { DataTable } from "./data-table"
 import { columns } from "./columns"
 import { AlarmStatusDropDownList } from "./alarm-status-ddl"
 import { UsersCombobox } from "./users-combobox"
+import { AlarmNotes } from "./alarm-notes"
 interface AlarmDisplayProps {
   alarm: any | null
 }
@@ -84,6 +85,7 @@ export function MailDisplay({ alarm }: AlarmDisplayProps) {
               </div>
               <DataTable columns={columns} data={alarm.credentials}/>
             </div>
+            <AlarmNotes alarm={alarm}/>
           </div>
           <Separator className="mt-auto" />
         </div>
