@@ -95,7 +95,7 @@ export function UsersCombobox(props: any) {
             )
             : (
               value ? (
-                users.find((user) => user.value === value)?.label ?? currentAlarm.assigneduser.fullname
+                users.find((user) => user.value === value)?.label ?? currentAlarm?.assigneduser?.fullname ?? "Select User"
               ) : "Select User"
             )
           }
