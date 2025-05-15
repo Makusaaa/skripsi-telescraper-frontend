@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { useAlarm } from "../use-alarm"
 import { Badge } from "@/components/ui/badge"
 import { ComponentProps } from "react"
+import { StatusEnum, StatusName } from "@/lib/moduleconstants"
 
 interface AlarmListProps {
   items: any[]
@@ -55,9 +56,9 @@ export function AlarmList({ items }: AlarmListProps) {
                 {item.text.substring(0, 300)}
               </div>
               <div className="ml-auto mt-auto">
-                {item.labels.length ? (
+                {[StatusName[item.status as StatusEnum]].length ? (
                   <div className="flex items-center gap-2">
-                    {item.labels.map((label: any) => (
+                    {[StatusName[item.status as StatusEnum]].map((label: any) => (
                       <Badge key={label} variant={getBadgeVariantFromLabel(label)}>
                         {label}
                       </Badge>
@@ -66,8 +67,6 @@ export function AlarmList({ items }: AlarmListProps) {
                 ) : null}
               </div>
             </div>
-            
-            
           </button>
         ))}
       </div>

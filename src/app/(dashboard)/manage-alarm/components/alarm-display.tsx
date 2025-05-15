@@ -13,23 +13,14 @@ import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 import { Copy } from "lucide-react"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useEffect, useState } from "react"
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
+import { AlarmStatusDropDownList } from "./alarm-status-ddl"
 interface AlarmDisplayProps {
   alarm: any | null
 }
 
 export function MailDisplay({ alarm }: AlarmDisplayProps) {
-  const [status, setStatus] = useState(alarm?.status);
-
-  useEffect(() => {
-    if(alarm){
-      setStatus(alarm.status);
-    }
-	}, [alarm, status]);
-
   return (
     <div className="flex h-full flex-col">
       {alarm ? (
@@ -70,7 +61,7 @@ export function MailDisplay({ alarm }: AlarmDisplayProps) {
               <div className="flex flex-col gap-1">
                 <div className="font-semibold">Alarm ID</div>
                 <div className="flex items-center gap-1 min-w-[75px] mb-auto py-1">
-                  <span className="text-xs text-muted-foreground font-medium">56010559</span>
+                  <span className="text-xs text-muted-foreground font-medium">{alarm.alarmid}</span>
                   <Copy className="w-3 h-3 text-gray-500 cursor-pointer hover:text-gray-700" />
                 </div>
               </div>
@@ -82,16 +73,7 @@ export function MailDisplay({ alarm }: AlarmDisplayProps) {
               </div>
               <div className="flex flex-col gap-1">
                 <div className="font-semibold">Status</div>
-                <Select value={status?.toString() ?? ""} onValueChange={setStatus}>
-                  <SelectTrigger className="h-2 text-xs px-2 py-0" size="sm">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent className="text-xs">
-                    <SelectItem value="0">Open</SelectItem>
-                    <SelectItem value="1">On Progress</SelectItem>
-                    <SelectItem value="2">Closed</SelectItem>
-                  </SelectContent>
-                </Select>
+                <AlarmStatusDropDownList status={alarm.status}/>
               </div>
               <div className="flex flex-col gap-1">
                 <div className="font-semibold">Assigned To</div>

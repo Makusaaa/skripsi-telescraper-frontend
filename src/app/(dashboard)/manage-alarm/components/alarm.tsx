@@ -17,13 +17,14 @@ import {
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { MailDisplay } from "./alarm-display"
 import { AlarmList } from "./alarm-list"
-import { useAlarm } from "../use-alarm"
+import { alarmListAtom, useAlarm } from "../use-alarm"
 import { useEffect, useState } from "react"
 import { getAlarmList } from "@/services/alarms-service"
 import { toast } from "sonner"
 import { LoaderIcon } from "lucide-react"
-import { StatusEnum, StatusName } from "@/lib/moduleconstants"
+import { StatusEnum } from "@/lib/moduleconstants"
 import { Session } from "@/lib/apiclient"
+import { useAtom } from "jotai"
 
 interface AlarmProps {
   defaultLayout: number[] | undefined
@@ -35,18 +36,18 @@ export function AlarmsPage({
   session
 }: AlarmProps) {
   const [alarm] = useAlarm()
-  const [alarms, setAlarms] = useState<any[]>([])
+  const [alarms, setAlarms] = useAtom(alarmListAtom)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
     (async () => {
       try {
+        setAlarms([]);
         const { data: alarmList } = await getAlarmList()
         if(alarmList){
           setAlarms(alarmList.map((a: any) => ({
             ...a,
-            text: `Found leaked credentials on channel https://t.me/${a.channeluserid}/`,
-            labels: [StatusName[a.status as StatusEnum]]
+            text: `Found leaked credentials on channel https://t.me/${a.channeluserid}/${a.messageid}`,
           })))
         }
       }
@@ -57,7 +58,7 @@ export function AlarmsPage({
         setIsLoading(false);
       }
     })()
-	}, []);
+	}, [setAlarms]);
 
   return (
     <TooltipProvider delayDuration={0}>
