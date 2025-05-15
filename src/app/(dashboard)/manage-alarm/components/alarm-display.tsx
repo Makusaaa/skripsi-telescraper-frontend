@@ -7,12 +7,12 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar"
-import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Copy } from "lucide-react"
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
 import { AlarmStatusDropDownList } from "./alarm-status-ddl"
+import { UsersCombobox } from "./users-combobox"
 interface AlarmDisplayProps {
   alarm: any | null
 }
@@ -74,9 +74,7 @@ export function MailDisplay({ alarm }: AlarmDisplayProps) {
               </div>
               <div className="flex flex-col gap-1">
                 <div className="font-semibold">Assigned To</div>
-                <Button variant="outline" className="bg-yellow-400/20 text-yellow-700 text-xs px-2 py-1 h-auto rounded-md">
-                  Open
-                </Button>
+                <UsersCombobox alarm={alarm} />
               </div>
             </div>
             <Separator/>

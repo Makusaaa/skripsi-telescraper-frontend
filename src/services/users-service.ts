@@ -6,6 +6,12 @@ export async function getUserList() {
     return await FetchAPI("GET","/users");
 }
 
+export async function getUserListByCompanyID(companyid: number) {
+    return await FetchAPI("GET",`/users/company?data=${JSON.stringify({
+        companyid: companyid
+    })}`);
+}
+
 export async function deleteUser(userid: string) {
     return await FetchAPI("DELETE","/users", { userid: userid });
 }

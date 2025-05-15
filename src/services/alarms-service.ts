@@ -11,3 +11,10 @@ export async function updateAlarmStatus(input: { alarmid: string, status: number
         status: input.status,
     });
 }
+
+export async function updateAlarmAssignTo(input: { alarmid: string, assignto: number | null }) {
+    return await FetchAPI("PATCH","/alarms/assign", {
+        alarmid: input.alarmid,
+        assignto: input.assignto,
+    });
+}
