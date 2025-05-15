@@ -30,6 +30,7 @@ export function AlertDialogButton(props: any) {
       await deleteKeyword(keywordid);
       setKeywords(keywords.filter((keyword: any) => keyword.keywordid !== keywordid));
       setShowDialog(false);
+      toast.success("Sucessfully deleted keyword!");
     }
     catch(e: any) {
       toast.error(e.message);

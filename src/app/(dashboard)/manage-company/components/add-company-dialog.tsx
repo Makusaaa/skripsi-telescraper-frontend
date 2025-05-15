@@ -47,6 +47,7 @@ export function AddCompanyDialog() {
       }];
       setCompany(newdata);
       setShowDialog(false);
+      toast.success("Sucessfully added new company!");
     }
     catch(e: any) {
       toast.error(e.message)

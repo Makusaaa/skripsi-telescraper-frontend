@@ -43,6 +43,7 @@ export function AddKeywordDialog(props: any) {
       const newdata: any = [...keywords, data as Keyword];
       setKeywords(newdata);
       setShowDialog(false);
+      toast.success("Sucessfully added new keyword!");
     }
     catch(e: any) {
       toast.error(e.message)

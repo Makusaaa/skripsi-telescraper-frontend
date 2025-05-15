@@ -30,6 +30,7 @@ export function AlertDialogButton(props: any) {
       await deleteUser(userid);
       setUsers(users.filter((user: any) => user.userid !== userid));
       setShowDialog(false);
+      toast.success("Sucessfully deleted user!");
     }
     catch(e: any) {
       toast.error(e.message);

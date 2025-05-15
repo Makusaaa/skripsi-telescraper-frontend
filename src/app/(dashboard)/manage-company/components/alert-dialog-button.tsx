@@ -30,6 +30,7 @@ export function AlertDialogButton(props: any) {
       await deleteCompany(companyid);
       setCompany(companies.filter((company: any) => company.id !== companyid));
       setShowDialog(false);
+      toast.success("Sucessfully deleted company!");
     }
     catch(e: any) {
       toast.error(e.message);
