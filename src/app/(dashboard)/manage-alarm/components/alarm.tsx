@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
@@ -48,13 +49,16 @@ export function AlarmsPage({
             ...a,
             text: `Found leaked credentials on channel https://t.me/${a.channeluserid}/${a.messageid}`,
           })))
-          const redirectAlarm = alarmList.find((a: any) => a.alarmid == searchParams[1])
-          if(redirectAlarm){
-            setAlarm({
-              ...alarm,
-              selected: redirectAlarm.alarmid,
-            })
+          try{
+            const redirectAlarm = alarmList.find((a: any) => a.alarmid == searchParams[1])
+            if(redirectAlarm){
+              setAlarm({
+                ...alarm,
+                selected: redirectAlarm.alarmid,
+              })
+            }
           }
+          catch {}
         }
       }
       catch(e: any) {
