@@ -24,6 +24,7 @@ import { LoaderIcon } from "lucide-react"
 import { StatusEnum } from "@/lib/moduleconstants"
 import { Session } from "@/lib/apiclient"
 import { useAtom } from "jotai"
+import { useSearchParams } from "next/navigation"
 
 interface AlarmProps {
   session: Session
@@ -32,7 +33,8 @@ interface AlarmProps {
 export function AlarmsPage({
   session
 }: AlarmProps) {
-  const [alarm] = useAlarm()
+  const [searchParams] = useSearchParams();
+  const [alarm, setAlarm] = useAlarm()
   const [alarms, setAlarms] = useAtom(alarmListAtom)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
@@ -46,6 +48,13 @@ export function AlarmsPage({
             ...a,
             text: `Found leaked credentials on channel https://t.me/${a.channeluserid}/${a.messageid}`,
           })))
+          const redirectAlarm = alarmList.find((a: any) => a.alarmid == searchParams[1])
+          if(redirectAlarm){
+            setAlarm({
+              ...alarm,
+              selected: redirectAlarm.alarmid,
+            })
+          }
         }
       }
       catch(e: any) {

@@ -5,9 +5,8 @@ import { ColumnDef } from "@tanstack/react-table"
 import { createColumnHelper } from "@tanstack/react-table"
 import { format } from "date-fns/format"
 import { ArrowUpRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
 import { StatusDropDownList } from "./status-ddl"
-// import { AlertDialogButton } from "./alert-dialog-button"
+import Link from "next/link"
 
 export type Keyword = {
   credentialexposureid: string
@@ -66,14 +65,13 @@ export const columns: ColumnDef<Keyword>[] = [
     id: 'action',
     header: "Alarm ID",
     cell: (d) => (
-      <Button
-        size="sm"
-        className="flex items-center"
-        variant="outline"
+      <Link passHref
+        href={`/manage-alarm?id=${d.row.original.alarmid}`}
+        className="flex items-center justify-center text-xs border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-6 rounded-md gap-0.5 w-full"
       >
         {d.row.original.alarmid}
-        <ArrowUpRight className="h-4 w-4"/>
-      </Button>
+        <ArrowUpRight className="h-3 w-3"/>
+      </Link>
     ),
   })
 ]
