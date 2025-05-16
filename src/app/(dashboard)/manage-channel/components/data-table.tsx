@@ -23,7 +23,7 @@ import clsx from "clsx"
 import { LoaderIcon } from "lucide-react"
 import { toast } from "sonner"
 import { Channel } from "./columns"
-import { getChannelList } from "@/services/channels-services"
+import { getChannelList } from "@/services/channels-service"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

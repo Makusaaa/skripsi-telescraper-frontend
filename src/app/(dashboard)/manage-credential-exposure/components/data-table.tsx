@@ -23,7 +23,7 @@ import clsx from "clsx"
 import { LoaderIcon } from "lucide-react"
 import { toast } from "sonner"
 import { Keyword } from "./columns"
-import { getCredentialExposureList } from "@/services/credentialexposure-services"
+import { getCredentialExposureList } from "@/services/credentialexposure-service"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

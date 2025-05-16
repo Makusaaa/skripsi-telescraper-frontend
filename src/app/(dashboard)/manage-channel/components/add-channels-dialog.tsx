@@ -18,7 +18,7 @@ import { Label } from "@/components/ui/label"
 import { CirclePlus, LoaderIcon } from "lucide-react"
 import { FormEvent, useState } from "react"
 import { toast } from "sonner"
-import { joinChannel } from "@/services/channels-services";
+import { joinChannel } from "@/services/channels-service";
 import { Channel } from "./columns";
 
 export function AddChannelDialog() {

@@ -5,7 +5,7 @@ import { LoaderIcon } from "lucide-react"
 import { useState } from "react";
 import { toast } from "sonner";
 import { credentialAtom } from "../atoms";
-import { updateCredentialExposureStatus } from "@/services/credentialexposure-services";
+import { updateCredentialExposureStatus } from "@/services/credentialexposure-service";
 import { cn } from "@/lib/utils";
 import { StatusEnum } from "@/lib/moduleconstants";
 

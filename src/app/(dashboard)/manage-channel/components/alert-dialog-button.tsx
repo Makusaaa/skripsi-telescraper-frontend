@@ -15,7 +15,7 @@ import {
   } from "@/components/ui/alert-dialog"
   import { Button } from "@/components/ui/button"
 import { LoaderIcon, Trash } from "lucide-react"
-import { leaveChannel } from "@/services/channels-services";
+import { leaveChannel } from "@/services/channels-service";
 import { toast } from "sonner"
 import { useState } from "react";
 
