@@ -9,11 +9,11 @@ export async function leaveChannel(channelid: string) {
     return await FetchAPI("DELETE","/channels", { channelid: channelid });
 }
 
-export async function addKeyword(input: {
+export async function joinChannel(input: {
     channeluserid: string,
 }) {
     if(!input.channeluserid) throw new Error("Telegram Channel ID is empty!")
     return await FetchAPI("POST","/channels", {
-        channeluserid: input.channeluserid,
+        channelid: input.channeluserid,
     });
 }

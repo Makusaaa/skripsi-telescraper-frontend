@@ -1,5 +1,6 @@
 "use client"
 
+import { AddChannelDialog } from "./components/add-channels-dialog"
 import { columns } from "./components/columns"
 import { DataTable } from "./components/data-table"
 
@@ -15,7 +16,7 @@ export default function ManageChannelPage() {
             </p>
           </div>
           <div className="flex items-center space-x-2">
-            {/* <AddKeywordDialog role={role}/> */}
+            <AddChannelDialog/>
           </div>
         </div>
         <DataTable columns={columns} />
