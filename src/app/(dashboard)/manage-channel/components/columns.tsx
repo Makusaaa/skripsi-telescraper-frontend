@@ -3,6 +3,7 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { createColumnHelper } from "@tanstack/react-table"
+import { AlertDialogButton } from "./alert-dialog-button"
 
 export type Channel = {
   channelid: string
@@ -45,9 +46,8 @@ export const columns: ColumnDef<Channel>[] = [
   colHelper.display({
     id: 'action',
     header: () => <div className="text-right"></div>,
-    cell: () => (
-      <></>
-      // <div className="text-right"><AlertDialogButton keywordid={d.row.original.keywordid} /></div>
+    cell: (d) => (
+      <div className="text-right"><AlertDialogButton channelid={d.row.original.channeluserid} /></div>
     ),
   })
 ]
