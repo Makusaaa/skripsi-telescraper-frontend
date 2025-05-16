@@ -3,11 +3,10 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { createColumnHelper } from "@tanstack/react-table"
-import { StatusBadge } from "../../manage-alarm/components/status-badge"
-import { StatusEnum } from "@/lib/moduleconstants"
 import { format } from "date-fns/format"
 import { ArrowUpRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { StatusDropDownList } from "./status-ddl"
 // import { AlertDialogButton } from "./alert-dialog-button"
 
 export type Keyword = {
@@ -61,7 +60,7 @@ export const columns: ColumnDef<Keyword>[] = [
   {
     accessorKey: "status",
     header: "Status",
-    cell: (d) => (<StatusBadge status={d.getValue() as StatusEnum}/>),
+    cell: (d) => (<StatusDropDownList status={Number(d.getValue())} credentialexposureid={Number(d.row.original.credentialexposureid)}/>),
   },
   colHelper.display({
     id: 'action',
