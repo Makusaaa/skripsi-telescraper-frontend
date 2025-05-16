@@ -22,10 +22,6 @@ export const columns: ColumnDef<User>[] = [
     cell: (d: any) => (<div className="text-center w-full">{d.getValue()}</div>)
   },
   {
-    accessorKey: "url",
-    header: "URL",
-  },
-  {
     accessorKey: "login",
     header: "Login",
   },
@@ -33,6 +29,10 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "password",
     header: "Password",
     cell: (d) => (d.getValue() ?? "-"),
+  },
+  {
+    accessorKey: "url",
+    header: "URL",
   },
   {
     accessorKey: "status",
