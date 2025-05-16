@@ -14,6 +14,8 @@ export default function ManageCredentialExposurePage() {
               Manage credentials to be investigated
             </p>
           </div>
+          <div className="flex items-center space-x-2">
+          </div>
         </div>
         <DataTable columns={columns} />
       </div>
