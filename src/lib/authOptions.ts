@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
       },
       async jwt({ token, account }) {
         if (account) {
-          console.log(`[TESTING]: ${`${process.env.API_URL}/auth/login`}`)
+          console.error(`[TESTING]: ${`${process.env.API_URL}/auth/login`}`)
           const res = await fetch(
             `${process.env.API_URL}/auth/login`,
             {
